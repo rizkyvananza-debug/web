@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useMemo, useState } from "react";
@@ -6,8 +7,10 @@ import "./list.css";
 
 type Comic = {
   id: number;
+  slug: string;
   title: string;
   subtitle: string;
+  author: string;
   genre: string[];
   status: "Ongoing" | "Completed";
   rating: string;
@@ -20,86 +23,43 @@ type Comic = {
 const comics: Comic[] = [
   {
     id: 1,
+    slug: "no-more-eurydice001",
     title: "No More Eurydice",
-    subtitle: "Andrew & Luke",
-    genre: ["Romance", "Drama", "Psychological"],
+    subtitle: "A Tale of Love, Loss & Redemption",
+    author: "Baek Daekal",
+    genre: ["Boys Love", "Drama", "Psychological", "Romance"],
     status: "Ongoing",
     rating: "9.8",
     chapter: "Chapter 12",
     color: "cover-one",
     symbol: "N✦E",
-    description: "Some love stories are written in the stars. Others are written in the spaces between goodbye.",
+    description:
+      "Han Garam enters a prestigious arts university, where his passion for classical music brings him close to Professor Kim Heejae, a world-renowned pianist. But behind the beauty of music lies ambition, manipulation, and a story of love and pain.",
   },
   {
     id: 2,
-    title: "The Silent Garden",
-    subtitle: "A Story of Memories",
-    genre: ["Romance", "Drama"],
+    slug: "the-dangerous-convenience-store002",
+    title: "The Dangerous Convenience Store",
+    subtitle: "A Dangerous Kind of Love",
+    author: "945",
+    genre: ["Boys Love", "Romance", "Comedy", "Drama"],
     status: "Completed",
-    rating: "9.5",
-    chapter: "Chapter 45",
-    color: "cover-two",
-    symbol: "花",
-    description: "A forgotten promise blooms again in a garden full of memories.",
-  },
-  {
-    id: 3,
-    title: "Moonlight Sonata",
-    subtitle: "Melody of Two Hearts",
-    genre: ["Romance", "Music"],
-    status: "Ongoing",
     rating: "9.7",
-    chapter: "Chapter 08",
-    color: "cover-three",
-    symbol: "♫",
-    description: "Two souls meet through a melody neither of them can forget.",
-  },
-  {
-    id: 4,
-    title: "The Last Winter",
-    subtitle: "Until We Meet Again",
-    genre: ["Drama", "Fantasy"],
-    status: "Completed",
-    rating: "9.4",
-    chapter: "Chapter 30",
-    color: "cover-four",
-    symbol: "❄",
-    description: "In a world where winter never ends, someone is waiting for spring.",
-  },
-  {
-    id: 5,
-    title: "Velvet Memories",
-    subtitle: "Fragments of Yesterday",
-    genre: ["Romance", "Psychological"],
-    status: "Ongoing",
-    rating: "9.6",
-    chapter: "Chapter 16",
-    color: "cover-five",
-    symbol: "V",
-    description: "Some memories are beautiful. Others are impossible to escape.",
-  },
-  {
-    id: 6,
-    title: "Beyond the Stars",
-    subtitle: "Our Endless Universe",
-    genre: ["Fantasy", "Adventure"],
-    status: "Completed",
-    rating: "9.3",
-    chapter: "Chapter 28",
-    color: "cover-six",
-    symbol: "✧",
-    description: "A journey across the stars to find the one thing worth returning for.",
+    chapter: "Completed",
+    color: "cover-two",
+    symbol: "危",
+    description:
+      "Yeo Eui-joon works the night shift at a convenience store frequented by gangsters. Among its dangerous customers is Bum Geon-woo, an intimidating man who seems to have a special soft spot for him. As their paths cross, an unexpected romance begins.",
   },
 ];
 
 const genres = [
   "All",
+  "Boys Love",
   "Romance",
   "Drama",
-  "Fantasy",
   "Psychological",
-  "Music",
-  "Adventure",
+  "Comedy",
 ];
 
 export default function ListPage() {
@@ -112,7 +72,8 @@ export default function ListPage() {
     let result = comics.filter((comic) => {
       const matchesSearch =
         comic.title.toLowerCase().includes(search.toLowerCase()) ||
-        comic.subtitle.toLowerCase().includes(search.toLowerCase());
+        comic.subtitle.toLowerCase().includes(search.toLowerCase()) ||
+        comic.author.toLowerCase().includes(search.toLowerCase());
 
       const matchesGenre =
         genre === "All" || comic.genre.includes(genre);
@@ -172,7 +133,7 @@ export default function ListPage() {
           </div>
 
           <div>
-            <strong>07</strong>
+            <strong>06</strong>
             <span>GENRES</span>
           </div>
 
@@ -189,7 +150,9 @@ export default function ListPage() {
             <span className="library-small-label">
               EXPLORE THE COLLECTION
             </span>
-            <h2>All <em>Stories</em></h2>
+            <h2>
+              All <em>Stories</em>
+            </h2>
           </div>
 
           <span className="result-count">
@@ -294,15 +257,9 @@ export default function ListPage() {
                 <div className="comic-bottom">
                   <span>{comic.chapter}</span>
 
-                  {comic.id === 1 ? (
-                    <Link href="/#chapters">
-                      READ NOW ↗
-                    </Link>
-                  ) : (
-                    <span className="coming-soon">
-                      COMING SOON
-                    </span>
-                  )}
+                  <Link href={`/list/${comic.slug}`}>
+                    VIEW STORY ↗
+                  </Link>
                 </div>
               </div>
             </article>
