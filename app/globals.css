@@ -4,18 +4,20 @@
 @tailwind utilities;
 
 /* =========================================
-   GLOBAL
+   ANDREW & LUKE — DARK EMERALD LUXURY
 ========================================= */
 
 :root {
   color-scheme: dark;
-  --al-ink: #233b39;
-  --al-deep: #172e2d;
-  --al-gold: #c6b77c;
-  --al-cream: #f4f2e8;
-  --al-pale: #e2ece6;
-  --al-muted: #71847d;
-  --al-pink: #e9c7ce;
+  --al-ink: #f1ead8;
+  --al-deep: #071e1a;
+  --al-dark: #0b2923;
+  --al-green: #123b31;
+  --al-gold: #c9ad68;
+  --al-gold-light: #e0cb91;
+  --al-cream: #f1ead8;
+  --al-muted: #b8c5b5;
+  --al-pink: #e5b9bb;
 }
 
 * {
@@ -24,12 +26,14 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--al-deep);
 }
 
 body {
   margin: 0;
-  background: #101918;
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--al-deep);
+  color: var(--al-cream);
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 a {
@@ -53,9 +57,11 @@ img {
 .al-home {
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
-  background: var(--al-cream);
-  color: var(--al-ink);
+  overflow: hidden;
+  color: var(--al-cream);
+  background:
+    radial-gradient(ellipse at 50% 30%, #164338 0%, transparent 55%),
+    var(--al-deep);
   font-family: Georgia, "Times New Roman", serif;
 }
 
@@ -69,25 +75,28 @@ img {
 .al-header {
   position: relative;
   z-index: 50;
-  min-height: 85px;
-  padding: 12px 6%;
+  min-height: 82px;
+  padding: 12px 7%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--al-deep);
+  background: rgba(5, 26, 22, .94);
   color: var(--al-cream);
-  border-bottom: 1px solid rgba(198,183,124,.45);
+  border-bottom: 1px solid rgba(201, 173, 104, .65);
+  backdrop-filter: blur(12px);
 }
 
 .al-logo {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 3px;
   letter-spacing: 5px;
 }
 
 .al-logo span {
-  font-size: 30px;
+  font-size: 31px;
+  line-height: 1;
 }
 
 .al-logo i {
@@ -97,8 +106,8 @@ img {
 }
 
 .al-logo small {
-  font-size: 9px;
-  letter-spacing: 4px;
+  font-size: 8px;
+  letter-spacing: 3px;
 }
 
 /* HAMBURGER */
@@ -123,7 +132,7 @@ img {
   width: 27px;
   height: 2px;
   border-radius: 2px;
-  background: var(--al-cream);
+  background: var(--al-gold-light);
   transition: transform .25s, opacity .25s;
 }
 
@@ -152,38 +161,38 @@ img {
   left: 14px;
   right: 14px;
   flex-direction: column;
-  align-items: stretch;
-  gap: 0;
   padding: 12px 20px;
-  background: #172e2d;
-  border: 1px solid rgba(198,183,124,.7);
-  border-radius: 12px;
-  box-shadow: 0 14px 30px rgba(0,0,0,.3);
+  background: #09251f;
+  border: 1px solid var(--al-gold);
+  box-shadow: 0 15px 35px #0008;
   z-index: 55;
 }
 
 .al-nav.is-open a {
   display: block;
-  padding: 17px 8px;
+  padding: 16px 8px;
   color: var(--al-cream);
-  font-size: 14px;
-  border-bottom: 1px solid rgba(198,183,124,.25);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  border-bottom: 1px solid rgba(201, 173, 104, .22);
 }
 
 .al-nav.is-open a:last-child {
   border-bottom: 0;
 }
 
-/* HERO */
+/* =========================================
+   HERO
+========================================= */
 
 .al-hero {
-  min-height: calc(100svh - 85px);
+  min-height: 650px;
   position: relative;
   display: flex;
   align-items: center;
-  padding: 70px 8%;
-  color: white;
-  background: var(--al-deep);
+  padding: 75px 8% 95px;
+  color: var(--al-cream);
+  background: #09251f;
   isolation: isolate;
 }
 
@@ -194,6 +203,7 @@ img {
   background-image: url("/images/andrew-luke-piano.jpg");
   background-size: cover;
   background-position: center 43%;
+  filter: saturate(.8);
 }
 
 .al-hero::after {
@@ -202,39 +212,37 @@ img {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(
-      90deg,
-      rgba(15,37,36,.88),
-      rgba(15,37,36,.38)
-    ),
-    linear-gradient(
-      0deg,
-      rgba(15,37,36,.88),
-      transparent 85%
-    );
+    linear-gradient(90deg,
+      rgba(5, 28, 23, .94),
+      rgba(7, 34, 28, .68),
+      rgba(7, 34, 28, .30)),
+    linear-gradient(0deg,
+      #09251f 0%,
+      transparent 65%);
 }
 
 .al-hero-content {
   width: 100%;
-  max-width: 570px;
+  max-width: 590px;
 }
 
 .al-eyebrow {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--al-gold);
-  letter-spacing: 2.5px;
-  font-size: 9px;
+  color: var(--al-gold-light);
+  letter-spacing: 2.8px;
+  font-size: 10px;
   line-height: 1.8;
+  text-transform: uppercase;
 }
 
 .al-hero h1 {
-  font-size: clamp(58px, 9vw, 108px);
+  font-size: clamp(60px, 9vw, 105px);
   line-height: .94;
   font-weight: 400;
   letter-spacing: -3px;
-  margin: 35px 0 22px;
+  margin: 30px 0 20px;
 }
 
 .al-hero h1 span {
@@ -244,65 +252,68 @@ img {
 
 .al-hero h1 em {
   display: block;
-  color: #d9e5dc;
+  color: var(--al-cream);
   font-weight: 400;
 }
 
 .al-line {
-  width: 85px;
+  width: 75px;
   height: 1px;
   background: var(--al-gold);
-  margin: 28px 0;
+  margin: 22px 0;
 }
 
 .al-description {
-  max-width: 420px;
-  color: #e7e9df;
+  max-width: 430px;
+  color: #e6e5d8;
   font-size: 17px;
-  line-height: 1.8;
-  margin-top: 25px;
+  line-height: 1.75;
+  margin-top: 20px;
 }
 
-/* HERO BUTTONS */
+/* BUTTONS */
 
 .al-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 35px;
+  margin-top: 30px;
 }
 
 .al-button {
-  min-height: 58px;
+  min-height: 54px;
   padding: 12px 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 10px;
   font-size: 10px;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   transition: .25s;
 }
 
 .al-button-primary {
-  background: var(--al-gold);
-  color: var(--al-deep) !important;
+  background: linear-gradient(135deg, #d9c17d, #b99b56);
+  color: #102a23 !important;
   border: 1px solid var(--al-gold);
 }
 
 .al-button-outline {
-  border: 1px solid rgba(255,255,255,.7);
-  color: white !important;
+  border: 1px solid var(--al-gold);
+  color: var(--al-cream) !important;
+  background: rgba(4, 27, 22, .25);
 }
 
 .al-button:hover,
 .al-list-button:hover {
   transform: translateY(-3px);
+  filter: brightness(1.12);
 }
 
 .al-list-button {
   width: auto;
-  min-height: 58px;
+  min-height: 54px;
   margin-top: 12px;
   padding: 12px 20px;
   display: inline-flex;
@@ -310,31 +321,73 @@ img {
   justify-content: center;
   gap: 12px;
   border: 1px solid var(--al-gold);
-  color: white !important;
+  color: var(--al-cream) !important;
+  background: rgba(4, 27, 22, .3);
   font-size: 10px;
-  letter-spacing: 1px;
+  letter-spacing: 1.3px;
   transition: .25s;
 }
 
 .al-hero-caption {
   position: absolute;
-  bottom: 20px;
+  bottom: 25px;
   left: 0;
   right: 0;
   text-align: center;
-  color: #e7e2d1;
-  font-size: 8px;
-  letter-spacing: 2px;
+  color: var(--al-gold-light);
+  font-size: 9px;
+  letter-spacing: 3px;
 }
 
-/* INTRO */
+/* =========================================
+   DECORATIVE GOLD DETAILS
+========================================= */
+
+.al-intro,
+.al-story {
+  position: relative;
+  isolation: isolate;
+}
+
+.al-intro::before,
+.al-story::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .45;
+  background:
+    radial-gradient(ellipse at 10% 30%, rgba(40, 100, 77, .28), transparent 45%),
+    radial-gradient(ellipse at 90% 75%, rgba(40, 100, 77, .24), transparent 45%);
+}
+
+.al-intro::after,
+.al-story::after {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: 12%;
+  height: 100px;
+  z-index: -1;
+  pointer-events: none;
+  border-top: 1px solid rgba(201, 173, 104, .2);
+  border-radius: 50%;
+  transform: rotate(-5deg);
+}
+
+/* =========================================
+   INTRO
+========================================= */
 
 .al-intro {
-  padding: 85px 22px;
+  padding: 75px 22px 65px;
   text-align: center;
+  color: var(--al-cream);
   background:
-    radial-gradient(ellipse at top, #fffdf4, transparent 65%),
-    var(--al-cream);
+    radial-gradient(ellipse at center, #153c31, transparent 75%),
+    #09251f;
 }
 
 .al-section-heading {
@@ -342,9 +395,9 @@ img {
   justify-content: center;
   align-items: center;
   gap: 16px;
-  color: #9b9b76;
-  letter-spacing: 2px;
-  font-size: 9px;
+  color: var(--al-gold-light);
+  letter-spacing: 2.5px;
+  font-size: 10px;
 }
 
 .al-section-heading span {
@@ -352,22 +405,22 @@ img {
 }
 
 .al-intro h2 {
-  font-size: 42px;
+  font-size: clamp(36px, 5vw, 53px);
   line-height: 1.2;
   font-weight: 400;
   margin: 20px 0 15px;
 }
 
 .al-intro h2 em {
-  color: #8b9d88;
+  color: var(--al-pink);
 }
 
 .al-intro > p {
   max-width: 550px;
   margin: 0 auto;
   line-height: 1.8;
-  color: #687770;
-  font-size: 14px;
+  color: #d0d9cc;
+  font-size: 15px;
 }
 
 /* FEATURE CARDS */
@@ -384,22 +437,24 @@ img {
 .al-feature-card {
   min-height: 230px;
   padding: 32px 22px;
-  border: 1px solid #d8d5bd;
-  background: rgba(255,255,255,.5);
+  border: 1px solid rgba(201, 173, 104, .8);
+  background: rgba(8, 36, 29, .55);
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: .25s;
+  color: var(--al-cream);
 }
 
 .al-feature-card:hover {
   transform: translateY(-5px);
-  border-color: var(--al-gold);
-  box-shadow: 0 12px 30px rgba(35,59,57,.08);
+  border-color: var(--al-gold-light);
+  background: rgba(24, 65, 49, .75);
+  box-shadow: 0 12px 35px #0003;
 }
 
 .al-feature-card > svg {
-  color: #9c9c70;
+  color: var(--al-gold);
 }
 
 .al-feature-card h3 {
@@ -409,7 +464,7 @@ img {
 }
 
 .al-feature-card p {
-  color: #6f7e75;
+  color: #c5d0c3;
   font-size: 14px;
   line-height: 1.7;
   margin: 0 0 20px;
@@ -420,24 +475,36 @@ img {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #78866f;
+  color: var(--al-gold-light);
   font-size: 10px;
   letter-spacing: 1.5px;
 }
 
-/* STORY */
+/* =========================================
+   STORY
+========================================= */
 
 .al-story {
   display: grid;
-  grid-template-columns: 1.1fr .9fr;
-  background: #e1e9df;
+  grid-template-columns: 1fr 1fr;
+  background:
+    radial-gradient(ellipse at center, #174638, #09251f 75%);
+  color: var(--al-cream);
 }
 
 .al-story-image {
-  min-height: 460px;
+  min-height: 490px;
   background-image: url("/images/andrew-luke-lotus.jpg");
   background-size: cover;
   background-position: center;
+  position: relative;
+}
+
+.al-story-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(7, 30, 25, .45), transparent 60%);
 }
 
 .al-story-copy {
@@ -448,12 +515,12 @@ img {
 }
 
 .al-story-copy > svg {
-  color: #9b9b76;
+  color: var(--al-gold);
   margin-bottom: 18px;
 }
 
 .al-story-copy .al-eyebrow {
-  color: #8b967d;
+  color: var(--al-gold-light);
 }
 
 .al-story-copy h2 {
@@ -464,11 +531,11 @@ img {
 
 .al-story-copy h2 em {
   display: block;
-  color: #8b9d88;
+  color: var(--al-pink);
 }
 
 .al-story-copy > p:not(.al-eyebrow) {
-  color: #64746b;
+  color: #d2dcd1;
   line-height: 1.9;
   font-size: 15px;
 }
@@ -478,17 +545,20 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #647d70 !important;
+  color: var(--al-gold-light) !important;
   font-size: 10px;
   letter-spacing: 1.5px;
 }
 
-/* FOOTER */
+/* =========================================
+   FOOTER
+========================================= */
 
 .al-footer {
   padding: 48px 20px;
-  background: var(--al-deep);
+  background: #061d19;
   color: var(--al-cream);
+  border-top: 1px solid rgba(201, 173, 104, .65);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -497,7 +567,7 @@ img {
 }
 
 .al-footer > p {
-  color: #b9bda9;
+  color: var(--al-gold-light);
   font-size: 9px;
   letter-spacing: 3px;
 }
@@ -506,12 +576,16 @@ img {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 18px;
-  font-size: 11px;
+  gap: 22px;
+  font-size: 12px;
+}
+
+.al-footer > div a:hover {
+  color: var(--al-gold);
 }
 
 .al-footer > small {
-  color: #9ca99d;
+  color: #a9b9aa;
   font-size: 10px;
 }
 
@@ -524,8 +598,8 @@ img {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: #14201f;
-  color: #f0f0e9;
+  background: #09251f;
+  color: var(--al-cream);
   display: flex;
   flex-direction: column;
 }
@@ -535,11 +609,11 @@ img {
   inset: 0;
   z-index: -2;
   background-image:
-    linear-gradient(90deg,rgba(12,24,25,.84),rgba(17,32,33,.60)),
+    linear-gradient(90deg, rgba(5, 25, 21, .88), rgba(8, 38, 30, .62)),
     url("/piano-lotus-art.jpg");
   background-size: cover;
   background-position: center 40%;
-  filter: saturate(.76);
+  filter: saturate(.85);
 }
 
 .subpage:after {
@@ -548,11 +622,7 @@ img {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(11,20,20,.12),
-    rgba(10,18,18,.64)
-  );
+  background: linear-gradient(180deg, rgba(5, 20, 17, .15), rgba(5, 20, 17, .72));
 }
 
 .subpage-nav {
@@ -562,37 +632,37 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(232,207,208,.25);
+  border-bottom: 1px solid rgba(201, 173, 104, .5);
 }
 
 .subpage-brand {
   color: var(--al-cream);
-  font: 27px Georgia,serif;
+  font: 27px Georgia, serif;
   letter-spacing: 3px;
 }
 
 .subpage-brand span {
-  color: var(--al-pink);
+  color: var(--al-gold);
   font-size: 14px;
 }
 
 .subpage-brand small {
   display: block;
-  font: 7px Arial,sans-serif;
+  font: 7px Arial, sans-serif;
   letter-spacing: 2px;
-  color: #d9d8c9;
+  color: var(--al-gold-light);
 }
 
 .subpage-home {
-  font: 9px Arial,sans-serif;
+  font: 9px Arial, sans-serif;
   letter-spacing: 1.5px;
-  color: #f0e5e1;
-  border: 1px solid var(--al-pink);
+  color: var(--al-cream);
+  border: 1px solid var(--al-gold);
   padding: 12px 15px;
 }
 
 .pricing-wrap {
-  width: min(720px,90%);
+  width: min(720px, 90%);
   margin: auto;
   padding: 85px 0 70px;
   text-align: center;
@@ -600,13 +670,13 @@ img {
 
 .subpage-kicker,
 .price-label {
-  color: #e3c9c1;
-  font: 9px Arial,sans-serif;
+  color: var(--al-gold-light);
+  font: 9px Arial, sans-serif;
   letter-spacing: 3px;
 }
 
 .ornament {
-  color: var(--al-pink);
+  color: var(--al-gold);
   font-size: 12px;
   letter-spacing: 2px;
   margin: 27px 0;
@@ -614,21 +684,21 @@ img {
 
 .pricing-wrap h1 {
   color: var(--al-cream);
-  font: clamp(48px,8vw,82px)/.98 Georgia,serif;
+  font: clamp(48px, 8vw, 82px)/.98 Georgia, serif;
   font-weight: 400;
   letter-spacing: -2px;
   margin: 0;
-  text-shadow: 0 3px 25px rgba(0,0,0,.35);
+  text-shadow: 0 3px 25px rgba(0, 0, 0, .35);
 }
 
 .pricing-wrap h1 em {
-  color: var(--al-pink);
+  color: var(--al-gold-light);
   font-weight: 400;
 }
 
 .byline {
   color: #d9d8c9;
-  font: italic 14px Georgia,serif;
+  font: italic 14px Georgia, serif;
   letter-spacing: 1px;
   margin: 18px 0 35px;
 }
@@ -637,17 +707,17 @@ img {
   max-width: 470px;
   margin: 0 auto;
   padding: 37px 32px;
-  border: 1px solid rgba(233,199,206,.68);
-  background: rgba(18,31,30,.84);
-  box-shadow: 0 22px 80px rgba(0,0,0,.32);
+  border: 1px solid rgba(201, 173, 104, .8);
+  background: rgba(7, 32, 26, .88);
+  box-shadow: 0 22px 80px rgba(0, 0, 0, .32);
   backdrop-filter: blur(8px);
 }
 
 .price-card:before {
   content: "♩  ♫  ♬";
   display: block;
-  color: var(--al-pink);
-  font: 18px Georgia,serif;
+  color: var(--al-gold);
+  font: 18px Georgia, serif;
   letter-spacing: 14px;
   margin-bottom: 14px;
   text-align: center;
@@ -655,19 +725,19 @@ img {
 
 .price-card strong {
   display: block;
-  color: #f1eee6;
-  font: clamp(48px,8vw,68px) Georgia,serif;
+  color: var(--al-cream);
+  font: clamp(48px, 8vw, 68px) Georgia, serif;
   margin: 18px 0 10px;
 }
 
 .price-card strong span {
-  font: 16px Georgia,serif;
-  color: #d4dfda;
+  font: 16px Georgia, serif;
+  color: var(--al-gold-light);
 }
 
 .price-card p {
   color: #d4dfda;
-  font: 14px/1.8 Georgia,serif;
+  font: 14px/1.8 Georgia, serif;
   margin: 0 0 25px;
 }
 
@@ -678,15 +748,15 @@ img {
   gap: 18px;
   width: 100%;
   padding: 17px 20px;
-  color: #24302e;
-  background: var(--al-pink);
-  font: 700 10px Arial,sans-serif;
+  color: #102a23;
+  background: linear-gradient(135deg, #d9c17d, #b99b56);
+  font: 700 10px Arial, sans-serif;
   letter-spacing: 1.8px;
   transition: .2s;
 }
 
 .order-button:hover {
-  background: #f5dce0;
+  background: var(--al-gold-light);
   transform: translateY(-2px);
 }
 
@@ -698,30 +768,30 @@ img {
   display: block;
   margin-top: 16px;
   color: #d4dfda;
-  font: 10px/1.6 Arial,sans-serif;
+  font: 10px/1.6 Arial, sans-serif;
 }
 
 .subpage-footnote {
   max-width: 470px;
   margin: 24px auto 0;
   color: #d4dfda;
-  font: 11px/1.8 Arial,sans-serif;
+  font: 11px/1.8 Arial, sans-serif;
 }
 
 .owner-card h2 {
-  color: #f1eee6;
-  font: 42px Georgia,serif;
+  color: var(--al-cream);
+  font: 42px Georgia, serif;
   font-weight: 400;
   margin: 20px 0 12px;
 }
 
 .owner-card h2 span {
-  color: #d9b5b6;
+  color: var(--al-pink);
   font-style: italic;
 }
 
 .about-owner-wrap .price-card {
-  background: rgba(25,37,32,.86);
+  background: rgba(7, 32, 26, .9);
 }
 
 /* =========================================
@@ -743,20 +813,20 @@ img {
   inset: 0;
   z-index: -1;
   border: 0;
-  background: rgba(5,12,13,.72);
+  background: rgba(2, 12, 10, .8);
   backdrop-filter: blur(9px);
   cursor: pointer;
 }
 
 .welcome-card {
-  width: min(100%,520px);
+  width: min(100%, 520px);
   position: relative;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 4px;
   padding: 0 26px 25px;
-  color: #e8eee9;
-  background: linear-gradient(145deg,rgba(35,48,51,.98),rgba(24,34,38,.98));
-  border: 1px solid rgba(232,199,206,.22);
+  color: var(--al-cream);
+  background: linear-gradient(145deg, #123b31, #071e1a);
+  border: 1px solid rgba(201, 173, 104, .65);
   box-shadow: 0 25px 100px #0009;
   animation: welcome-in .35s ease-out both;
 }
@@ -765,7 +835,7 @@ img {
   height: 155px;
   margin: 0 -26px 22px;
   background:
-    linear-gradient(180deg,rgba(13,25,26,.04),rgba(20,31,32,.22)),
+    linear-gradient(180deg, rgba(5, 25, 21, .04), rgba(5, 25, 21, .35)),
     url('/piano-lotus-art.jpg') center 42%/cover;
 }
 
@@ -776,13 +846,13 @@ img {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid #aab3f6;
-  background: #252b3b;
-  color: #eef0fa;
+  border: 1px solid var(--al-gold);
+  background: #09251f;
+  color: var(--al-cream);
   display: grid;
   place-items: center;
   cursor: pointer;
-  box-shadow: 0 0 0 5px rgba(146,158,244,.16);
+  box-shadow: 0 0 0 5px rgba(201, 173, 104, .12);
 }
 
 .welcome-kicker {
@@ -790,16 +860,16 @@ img {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  color: var(--al-pink);
-  font: 9px Arial,sans-serif;
+  color: var(--al-gold-light);
+  font: 9px Arial, sans-serif;
   letter-spacing: 2px;
 }
 
 .welcome-card h2 {
   text-align: center;
   margin: 16px 0 12px;
-  color: #f0eee8;
-  font: clamp(34px,8vw,46px)/1.04 Georgia,serif;
+  color: var(--al-cream);
+  font: clamp(34px, 8vw, 46px)/1.04 Georgia, serif;
   font-weight: 400;
 }
 
@@ -812,22 +882,22 @@ img {
   margin: 0 auto 22px;
   text-align: center;
   color: #d0dbd7;
-  font: 15px/1.7 Arial,sans-serif;
+  font: 15px/1.7 Arial, sans-serif;
 }
 
 .welcome-action {
-  min-height: 62px;
+  min-height: 58px;
   width: 100%;
   margin-top: 12px;
   padding: 14px 18px;
-  border-radius: 18px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 14px;
   text-align: center;
-  font: 600 16px Arial,sans-serif;
-  transition: transform .2s,filter .2s;
+  font: 600 15px Arial, sans-serif;
+  transition: transform .2s, filter .2s;
 }
 
 .welcome-action:hover {
@@ -836,21 +906,21 @@ img {
 }
 
 .welcome-action.primary {
-  color: #263239;
-  background: var(--al-pink);
+  color: #102a23;
+  background: var(--al-gold);
 }
 
 .welcome-action.secondary {
-  color: #e8eee9;
-  background: #303b40;
-  border: 1px solid #687d78;
+  color: var(--al-cream);
+  background: #123b31;
+  border: 1px solid var(--al-gold);
 }
 
 .welcome-foot {
   margin-top: 21px;
   text-align: center;
-  color: #9caeaa;
-  font: 8px Arial,sans-serif;
+  color: #b8c5b5;
+  font: 8px Arial, sans-serif;
   letter-spacing: 1.5px;
 }
 
@@ -866,7 +936,7 @@ img {
 }
 
 /* =========================================
-   TABLET & DESKTOP
+   DESKTOP
 ========================================= */
 
 @media (min-width: 701px) {
@@ -897,10 +967,10 @@ img {
 ========================================= */
 
 @media (max-width: 700px) {
-
   .al-header {
-    min-height: 72px;
-    padding: 10px 18px;
+    min-height: 65px;
+    padding: 9px 20px;
+    background: rgba(5, 26, 22, .94);
   }
 
   .al-logo span {
@@ -908,33 +978,29 @@ img {
   }
 
   .al-logo small {
-    font-size: 8px;
+    font-size: 7px;
     letter-spacing: 3px;
   }
 
   .al-hero {
-    min-height: 680px;
-    min-height: calc(100svh - 72px);
-    padding: 65px 23px 75px;
+    min-height: auto;
+    min-height: calc(100svh - 65px);
+    padding: 48px 7% 75px;
     align-items: center;
   }
 
   .al-hero-image {
-    background-position: 58% center;
+    background-position: 62% center;
   }
 
   .al-hero::after {
     background:
-      linear-gradient(
-        90deg,
-        rgba(15,37,36,.88),
-        rgba(15,37,36,.48)
-      ),
-      linear-gradient(
-        0deg,
-        rgba(15,37,36,.88),
-        transparent 90%
-      );
+      linear-gradient(90deg,
+        rgba(5, 28, 23, .91),
+        rgba(7, 34, 28, .58)),
+      linear-gradient(0deg,
+        #09251f 0%,
+        transparent 75%);
   }
 
   .al-hero-content {
@@ -943,40 +1009,42 @@ img {
 
   .al-eyebrow {
     font-size: 8px;
-    letter-spacing: 1.7px;
+    letter-spacing: 1.6px;
     gap: 7px;
   }
 
   .al-hero h1 {
-    font-size: clamp(57px,15vw,76px);
-    line-height: .96;
-    letter-spacing: -2.5px;
-    margin: 28px 0 18px;
+    font-size: clamp(54px, 13vw, 75px);
+    line-height: .94;
+    letter-spacing: -2px;
+    margin: 22px 0 15px;
   }
 
   .al-line {
-    width: 65px;
-    margin: 22px 0;
+    width: 50px;
+    margin: 15px 0;
   }
 
   .al-description {
-    font-size: 15px;
-    line-height: 1.8;
-    max-width: 330px;
+    font-size: 14px;
+    line-height: 1.65;
+    max-width: 340px;
+    margin-top: 10px;
   }
 
+  /* ORDER FULL WIDTH */
   .al-buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr;
     gap: 9px;
-    margin-top: 27px;
+    margin-top: 20px;
   }
 
   .al-button {
-    min-height: 54px;
+    min-height: 48px;
     padding: 10px 7px;
-    font-size: 9px;
-    letter-spacing: .5px;
+    font-size: 8px;
+    letter-spacing: .7px;
     gap: 5px;
   }
 
@@ -992,11 +1060,11 @@ img {
 
   .al-list-button {
     width: 100%;
-    min-height: 55px;
-    margin-top: 10px;
-    padding: 10px 7px;
+    min-height: 48px;
+    margin-top: 9px;
+    padding: 9px 6px;
     gap: 7px;
-    font-size: 8px;
+    font-size: 7px;
     letter-spacing: .5px;
   }
 
@@ -1007,114 +1075,131 @@ img {
   }
 
   .al-hero-caption {
-    bottom: 17px;
+    bottom: 20px;
     padding: 0 12px;
     font-size: 7px;
-    letter-spacing: 1.3px;
+    letter-spacing: 1.5px;
   }
 
+  /* INTRO */
   .al-intro {
-    padding: 58px 20px;
+    padding: 48px 19px 45px;
   }
 
   .al-section-heading {
-    gap: 9px;
+    gap: 8px;
     font-size: 8px;
     letter-spacing: 1.2px;
   }
 
   .al-intro h2 {
-    font-size: 32px;
-    line-height: 1.2;
-    margin: 19px 0 12px;
+    font-size: clamp(30px, 8vw, 39px);
+    line-height: 1.15;
+    margin: 15px 0 10px;
   }
 
   .al-intro > p {
     font-size: 13px;
-    line-height: 1.8;
+    line-height: 1.65;
+    max-width: 360px;
   }
 
+  /* FEATURE CARDS */
   .al-feature-grid {
     grid-template-columns: 1fr;
-    margin-top: 29px;
-    gap: 13px;
+    margin-top: 23px;
+    gap: 12px;
   }
 
   .al-feature-card {
-    min-height: 205px;
-    padding: 27px 20px;
-    border-radius: 4px;
+    min-height: 0;
+    padding: 20px 16px;
+    border: 1px solid var(--al-gold);
+    background: rgba(7, 35, 28, .58);
   }
 
   .al-feature-card > svg {
-    width: 25px;
-    height: 25px;
+    width: 23px;
+    height: 23px;
   }
 
   .al-feature-card h3 {
-    font-size: 23px;
-    margin: 14px 0 8px;
+    font-size: 22px;
+    margin: 9px 0 6px;
   }
 
   .al-feature-card p {
-    max-width: 270px;
-    font-size: 13px;
-    line-height: 1.7;
+    max-width: 290px;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 12px;
   }
 
   .al-feature-card span {
-    font-size: 9px;
+    font-size: 8px;
     letter-spacing: 1.2px;
   }
 
+  /* STORY IMAGE */
   .al-story {
     grid-template-columns: 1fr;
   }
 
   .al-story-image {
-    min-height: 310px;
+    min-height: 340px;
     background-position: center;
   }
 
   .al-story-copy {
-    padding: 42px 24px 48px;
+    padding: 30px 8% 42px;
   }
 
   .al-story-copy > svg {
-    width: 27px;
-    height: 27px;
+    width: 26px;
+    height: 26px;
+    margin-bottom: 13px;
+  }
+
+  .al-story-copy .al-eyebrow {
+    font-size: 8px;
+    letter-spacing: 1.8px;
   }
 
   .al-story-copy h2 {
-    font-size: 34px;
-    line-height: 1.2;
-    margin: 18px 0;
+    font-size: clamp(32px, 9vw, 40px);
+    line-height: 1.17;
+    margin: 12px 0;
   }
 
   .al-story-copy > p:not(.al-eyebrow) {
-    font-size: 14px;
-    line-height: 1.8;
+    font-size: 13px;
+    line-height: 1.7;
   }
 
   .al-text-link {
-    font-size: 9px;
+    font-size: 8px;
     letter-spacing: 1px;
-    line-height: 1.8;
+    line-height: 1.7;
   }
 
+  /* FOOTER */
   .al-footer {
-    padding: 38px 18px 30px;
-    gap: 19px;
+    padding: 30px 16px 26px;
+    gap: 16px;
+  }
+
+  .al-footer .al-logo span {
+    font-size: 31px;
   }
 
   .al-footer > p {
-    font-size: 8px;
-    letter-spacing: 1.8px;
+    font-size: 7px;
+    letter-spacing: 1.7px;
     line-height: 1.8;
   }
 
   .al-footer > div {
-    gap: 14px;
+    gap: 17px;
     font-size: 10px;
   }
 
@@ -1122,9 +1207,10 @@ img {
     font-size: 9px;
   }
 
+  /* SUBPAGES */
   .subpage-nav {
-    min-height: 72px;
-    padding: 16px 5%;
+    min-height: 65px;
+    padding: 13px 5%;
   }
 
   .subpage-brand {
@@ -1137,60 +1223,64 @@ img {
   }
 
   .pricing-wrap {
-    padding: 65px 0 50px;
+    padding: 55px 0 45px;
   }
 
   .price-card {
-    padding: 30px 20px;
+    padding: 28px 19px;
   }
 
+  /* POPUP */
   .welcome-card {
-    border-radius: 25px;
+    border-radius: 3px;
     padding: 0 20px 21px;
   }
 
   .welcome-art {
     margin-left: -20px;
     margin-right: -20px;
-    height: 140px;
+    height: 135px;
   }
 
   .welcome-close {
-    top: 155px;
+    top: 150px;
     right: 14px;
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
   }
 
   .welcome-copy {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .welcome-action {
-    min-height: 58px;
-    font-size: 14px;
+    min-height: 53px;
+    font-size: 13px;
   }
 }
 
-/* SMALL PHONES */
+/* =========================================
+   SMALL PHONES
+========================================= */
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .al-hero {
     padding-left: 18px;
     padding-right: 18px;
   }
 
   .al-hero h1 {
-    font-size: 55px;
+    font-size: 53px;
   }
 
   .al-button {
-    font-size: 8px;
+    font-size: 7px;
     gap: 4px;
   }
 
   .al-list-button {
-    font-size: 7px;
+    font-size: 6.5px;
+    letter-spacing: .3px;
   }
 
   .al-section-heading {
@@ -1199,7 +1289,9 @@ img {
   }
 }
 
-/* ACCESSIBILITY */
+/* =========================================
+   ACCESSIBILITY
+========================================= */
 
 @media (prefers-reduced-motion: reduce) {
   html {
