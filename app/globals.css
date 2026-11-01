@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,6 +17,8 @@
   --al-cream: #f1ead8;
   --al-muted: #b8c5b5;
   --al-pink: #e5b9bb;
+  --al-burgundy: #713d50;
+  --al-burgundy-light: #a96b7d;
 }
 
 * {
@@ -294,9 +295,13 @@ img {
 }
 
 .al-button-primary {
-  background: linear-gradient(135deg, #d9c17d, #b99b56);
-  color: #102a23 !important;
-  border: 1px solid var(--al-gold);
+  background: linear-gradient(
+    135deg,
+    #a96b7d,
+    #713d50
+  );
+  color: #fff4eb !important;
+  border: 1px solid #bd8795;
 }
 
 .al-button-outline {
@@ -340,7 +345,7 @@ img {
 }
 
 /* =========================================
-   DECORATIVE GOLD DETAILS
+   DECORATIVE DETAILS & LOTUS PANEL
 ========================================= */
 
 .al-intro,
@@ -362,7 +367,23 @@ img {
     radial-gradient(ellipse at 90% 75%, rgba(40, 100, 77, .24), transparent 45%);
 }
 
-.al-intro::after,
+/* LOTUS IMAGE IN THE MIDDLE PANEL */
+
+.al-intro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      rgba(7, 30, 26, .78),
+      rgba(7, 30, 26, .88)
+    ),
+    url("/images/andrew-luke-lotus.jpg") center 48% / cover no-repeat;
+  opacity: .42;
+}
+
 .al-story::after {
   content: "";
   position: absolute;
@@ -401,7 +422,7 @@ img {
 }
 
 .al-section-heading span {
-  color: var(--al-gold);
+  color: var(--al-burgundy-light);
 }
 
 .al-intro h2 {
@@ -412,7 +433,7 @@ img {
 }
 
 .al-intro h2 em {
-  color: var(--al-pink);
+  color: var(--al-burgundy-light);
 }
 
 .al-intro > p {
@@ -448,8 +469,8 @@ img {
 
 .al-feature-card:hover {
   transform: translateY(-5px);
-  border-color: var(--al-gold-light);
-  background: rgba(24, 65, 49, .75);
+  border-color: var(--al-burgundy-light);
+  background: rgba(75, 35, 49, .72);
   box-shadow: 0 12px 35px #0003;
 }
 
@@ -906,8 +927,8 @@ img {
 }
 
 .welcome-action.primary {
-  color: #102a23;
-  background: var(--al-gold);
+  color: #fff4eb;
+  background: linear-gradient(135deg, #a96b7d, #713d50);
 }
 
 .welcome-action.secondary {
@@ -1033,6 +1054,7 @@ img {
   }
 
   /* ORDER FULL WIDTH */
+
   .al-buttons {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -1082,6 +1104,7 @@ img {
   }
 
   /* INTRO */
+
   .al-intro {
     padding: 48px 19px 45px;
   }
@@ -1105,6 +1128,7 @@ img {
   }
 
   /* FEATURE CARDS */
+
   .al-feature-grid {
     grid-template-columns: 1fr;
     margin-top: 23px;
@@ -1141,6 +1165,7 @@ img {
   }
 
   /* STORY IMAGE */
+
   .al-story {
     grid-template-columns: 1fr;
   }
@@ -1183,6 +1208,7 @@ img {
   }
 
   /* FOOTER */
+
   .al-footer {
     padding: 30px 16px 26px;
     gap: 16px;
@@ -1208,6 +1234,7 @@ img {
   }
 
   /* SUBPAGES */
+
   .subpage-nav {
     min-height: 65px;
     padding: 13px 5%;
@@ -1231,6 +1258,7 @@ img {
   }
 
   /* POPUP */
+
   .welcome-card {
     border-radius: 3px;
     padding: 0 20px 21px;
