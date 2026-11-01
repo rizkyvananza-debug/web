@@ -328,4 +328,483 @@ body { background:#101918; }
  .chapter-actions { grid-column:2; justify-self:start; }
  .chapter-entry .chapter-title > span { font-size:18px; }
  .season-ending { grid-column:2; text-align:left; margin:2px 0 0; }
+
+/* ANDREW & LUKE - HOMEPAGE */
+.al-home {
+  --al-ink: #233b39;
+  --al-deep: #172e2d;
+  --al-gold: #c6b77c;
+  --al-cream: #f4f2e8;
+  --al-pale: #e2ece6;
+  --al-muted: #71847d;
+  background: var(--al-cream);
+  color: var(--al-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  overflow: hidden;
+}
+
+.al-home a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.al-header {
+  min-height: 82px;
+  padding: 14px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--al-deep);
+  color: var(--al-cream);
+  border-bottom: 1px solid rgba(198,183,124,.45);
+}
+
+.al-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  letter-spacing: 5px;
+}
+
+.al-logo span {
+  font-size: 30px;
+}
+
+.al-logo i {
+  color: var(--al-gold);
+  font-size: 17px;
+  font-style: normal;
+}
+
+.al-logo small {
+  font-size: 9px;
+  letter-spacing: 4px;
+}
+
+.al-nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  font-size: 14px;
+}
+
+.al-nav a {
+  transition: color .2s;
+}
+
+.al-nav a:hover,
+.al-footer a:hover {
+  color: var(--al-gold);
+}
+
+.al-hero {
+  min-height: 690px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 75px 8%;
+  color: white;
+  background: var(--al-deep);
+  isolation: isolate;
+}
+
+.al-hero-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url("/images/andrew-luke-piano.jpeg");
+  background-size: cover;
+  background-position: center 43%;
+}
+
+.al-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(15,37,36,.88) 0%, rgba(20,42,41,.65) 43%, rgba(20,42,41,.12) 100%),
+    linear-gradient(0deg, rgba(15,37,36,.65), transparent 35%);
+}
+
+.al-hero-content {
+  max-width: 570px;
+}
+
+.al-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--al-gold);
+  letter-spacing: 4px;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.al-hero h1 {
+  font-size: clamp(58px, 9vw, 108px);
+  line-height: .91;
+  font-weight: 400;
+  letter-spacing: -4px;
+  margin: 30px 0 20px;
+}
+
+.al-hero h1 span {
+  color: var(--al-gold);
+  font-style: italic;
+}
+
+.al-hero h1 em {
+  display: block;
+  color: #d9e5dc;
+  font-weight: 400;
+}
+
+.al-line {
+  width: 85px;
+  height: 1px;
+  background: var(--al-gold);
+  margin: 28px 0;
+}
+
+.al-description {
+  max-width: 420px;
+  color: #e7e9df;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.al-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.al-button {
+  min-height: 52px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  transition: .25s;
+}
+
+.al-button-primary {
+  background: var(--al-gold);
+  color: var(--al-deep) !important;
+  border: 1px solid var(--al-gold);
+}
+
+.al-button-outline {
+  border: 1px solid rgba(255,255,255,.7);
+  color: white !important;
+}
+
+.al-button:hover,
+.al-list-button:hover {
+  transform: translateY(-3px);
+}
+
+.al-list-button {
+  margin-top: 14px;
+  max-width: 410px;
+  min-height: 52px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--al-gold);
+  color: white !important;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  transition: .25s;
+}
+
+.al-hero-caption {
+  position: absolute;
+  bottom: 25px;
+  right: 7%;
+  color: #e7e2d1;
+  font-size: 9px;
+  letter-spacing: 4px;
+}
+
+.al-intro {
+  padding: 85px 7%;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at top, #fffdf4, transparent 65%),
+    var(--al-cream);
+}
+
+.al-section-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  color: #9b9b76;
+  letter-spacing: 3px;
+  font-size: 10px;
+}
+
+.al-section-heading span {
+  color: var(--al-gold);
+}
+
+.al-intro h2 {
+  font-size: clamp(32px, 5vw, 49px);
+  font-weight: 400;
+  margin: 20px 0 12px;
+}
+
+.al-intro h2 em {
+  color: #8b9d88;
+}
+
+.al-intro > p {
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 1.8;
+  color: #687770;
+  font-size: 15px;
+}
+
+.al-feature-grid {
+  max-width: 1100px;
+  margin: 48px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+
+.al-feature-card {
+  min-height: 255px;
+  padding: 35px 23px;
+  border: 1px solid #d8d5bd;
+  background: rgba(255,255,255,.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: .25s;
+}
+
+.al-feature-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--al-gold);
+  box-shadow: 0 12px 30px rgba(35,59,57,.08);
+}
+
+.al-feature-card > svg {
+  color: #9c9c70;
+}
+
+.al-feature-card h3 {
+  font-size: 25px;
+  font-weight: 400;
+  margin: 18px 0 10px;
+}
+
+.al-feature-card p {
+  color: #6f7e75;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+
+.al-feature-card span {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #78866f;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.al-story {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  min-height: 460px;
+  background: #e1e9df;
+}
+
+.al-story-image {
+  min-height: 430px;
+  background-image: url("/images/andrew-luke-lotus.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+.al-story-copy {
+  padding: 65px 12%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.al-story-copy > svg {
+  color: #9b9b76;
+  margin-bottom: 18px;
+}
+
+.al-story-copy .al-eyebrow {
+  color: #8b967d;
+}
+
+.al-story-copy h2 {
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.al-story-copy h2 em {
+  display: block;
+  color: #8b9d88;
+}
+
+.al-story-copy > p:not(.al-eyebrow) {
+  color: #64746b;
+  line-height: 1.9;
+  font-size: 15px;
+}
+
+.al-text-link {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #647d70 !important;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.al-footer {
+  padding: 45px 7%;
+  background: var(--al-deep);
+  color: var(--al-cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+}
+
+.al-footer > p {
+  color: #b9bda9;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.al-footer > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  font-size: 13px;
+}
+
+.al-footer > small {
+  color: #9ca99d;
+  font-size: 10px;
+}
+
+@media (max-width: 700px) {
+  .al-header {
+    padding: 14px 5%;
+    flex-wrap: wrap;
+  }
+
+  .al-nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .al-hero {
+    min-height: 720px;
+    padding: 65px 7%;
+    align-items: flex-end;
+  }
+
+  .al-hero-image {
+    background-position: 56% center;
+  }
+
+  .al-hero::after {
+    background:
+      linear-gradient(0deg, rgba(15,37,36,.95) 0%, rgba(15,37,36,.7) 48%, rgba(15,37,36,.05) 100%);
+  }
+
+  .al-hero-content {
+    width: 100%;
+  }
+
+  .al-hero h1 {
+    font-size: clamp(58px, 16vw, 85px);
+  }
+
+  .al-description {
+    font-size: 16px;
+  }
+
+  .al-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .al-button {
+    padding: 0 9px;
+    font-size: 9px;
+    gap: 7px;
+  }
+
+  .al-list-button {
+    max-width: none;
+    font-size: 9px;
+  }
+
+  .al-hero-caption {
+    display: none;
+  }
+
+  .al-intro {
+    padding: 65px 6%;
+  }
+
+  .al-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 32px;
+  }
+
+  .al-feature-card {
+    min-height: 220px;
+  }
+
+  .al-story {
+    grid-template-columns: 1fr;
+  }
+
+  .al-story-image {
+    min-height: 350px;
+  }
+
+  .al-story-copy {
+    padding: 48px 8%;
+  }
+
+  .al-footer > div {
+    gap: 15px;
+    font-size: 12px;
+  }
+}
+
 }
