@@ -764,3 +764,180 @@
     font-size: 9px;
   }
 }
+
+/* VERTICAL WEBTOON READER */
+
+.reader-toolbar {
+  max-width: 850px;
+  margin: auto;
+  padding: 15px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #ffffff20;
+}
+
+.reader-toolbar a {
+  color: #d4b18c;
+  text-decoration: none;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.reader-toolbar span {
+  color: #88796f;
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+.webtoon-reader {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  background: #080708;
+}
+
+.webtoon-page {
+  width: 100%;
+  margin: 0 auto;
+  line-height: 0;
+}
+
+.webtoon-page img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.page-error {
+  min-height: 250px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #c9a47d;
+  border-bottom: 1px solid #ffffff20;
+  line-height: 1.6;
+}
+
+.page-error span,
+.reader-empty > span {
+  font-size: 30px;
+}
+
+.page-error p {
+  color: #eee1d5;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+}
+
+.page-error small,
+.reader-empty small {
+  color: #9d8e84;
+  font-size: 10px;
+}
+
+.reader-empty {
+  min-height: 430px;
+  padding: 50px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #191418;
+  border-bottom: 1px solid #ffffff20;
+}
+
+.reader-empty h1 {
+  color: #f2e9df;
+  font: 42px 'Cormorant Garamond', serif;
+  margin: 10px 0;
+}
+
+.reader-empty > p:not(.reader-label) {
+  max-width: 380px;
+  color: #b9aaa0;
+  font: 17px/1.6 'Cormorant Garamond', serif;
+}
+
+.reader-label {
+  margin-top: 25px;
+  color: #c49a78;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.reader-bottom {
+  max-width: 850px;
+  margin: auto;
+  padding: 55px 20px;
+  text-align: center;
+}
+
+.reader-bottom > p {
+  color: #bd9673;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.reader-bottom h2 {
+  color: #f2e9df;
+  font: 34px 'Cormorant Garamond', serif;
+}
+
+.reader-navigation {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.reader-navigation a,
+.reader-navigation span {
+  min-width: 110px;
+  padding: 13px 15px;
+  border: 1px solid #b58b65;
+  color: #e8c9a5;
+  text-decoration: none;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.reader-navigation .disabled {
+  opacity: .35;
+}
+
+@media (max-width: 600px) {
+  .reader-toolbar {
+    padding: 13px 10px;
+  }
+
+  .reader-toolbar span {
+    display: none;
+  }
+
+  .webtoon-reader {
+    width: 100%;
+  }
+
+  .reader-bottom {
+    padding: 40px 12px;
+  }
+
+  .reader-navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .reader-navigation a,
+  .reader-navigation span {
+    min-width: 0;
+  }
+}
