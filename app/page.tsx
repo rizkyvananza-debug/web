@@ -1,4 +1,7 @@
 
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -10,27 +13,54 @@ import {
 } from "lucide-react";
 
 export default function HomePage() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <main className="al-home">
       <header className="al-header">
-        <Link href="/" className="al-logo">
+        <Link
+          href="/"
+          className="al-logo"
+          onClick={() => setMenuOpen(false)}
+        >
           <span>A <i>✦</i> L</span>
           <small>ANDREW & LUKE</small>
         </Link>
 
-        <nav className="al-nav">
-          <Link href="/">Home</Link>
-          <Link href="/pricing">Order Now</Link>
-          <Link href="/aboutowner">About Owner</Link>
-          <Link href="/list">Reading List</Link>
+        <button
+          className={`al-menu-toggle ${menuOpen ? "active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+          aria-expanded={menuOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <nav className={`al-nav ${menuOpen ? "is-open" : ""}`}>
+          <Link href="/" onClick={() => setMenuOpen(false)}>
+            Home
+          </Link>
+          <Link href="/pricing" onClick={() => setMenuOpen(false)}>
+            Order Now
+          </Link>
+          <Link href="/aboutowner" onClick={() => setMenuOpen(false)}>
+            About Owner
+          </Link>
+          <Link href="/list" onClick={() => setMenuOpen(false)}>
+            Reading List
+          </Link>
         </nav>
       </header>
 
       <section className="al-hero">
         <div className="al-hero-image" />
+
         <div className="al-hero-content">
           <p className="al-eyebrow">
-            <Sparkles size={14} /> A LITTLE STORE BY ANDREW & LUKE
+            <Sparkles size={14} />
+            A LITTLE STORE BY ANDREW & LUKE
           </p>
 
           <h1>
@@ -77,7 +107,10 @@ export default function HomePage() {
           <span>✦</span>
         </div>
 
-        <h2>A space made with <em>love.</em></h2>
+        <h2>
+          A space made with <em>love.</em>
+        </h2>
+
         <p>
           Temukan layanan, kenali pemilik toko, dan jelajahi
           berbagai cerita favorit dalam satu tempat.
@@ -91,7 +124,9 @@ export default function HomePage() {
               Temukan layanan sewa bot, User Premium,
               dan informasi harga.
             </p>
-            <span>EXPLORE SERVICES <ArrowRight size={15} /></span>
+            <span>
+              EXPLORE SERVICES <ArrowRight size={15} />
+            </span>
           </Link>
 
           <Link href="/aboutowner" className="al-feature-card">
@@ -101,7 +136,9 @@ export default function HomePage() {
               Kenali Andrew & Luke lebih dekat
               sebagai pengelola Andrew Store.
             </p>
-            <span>MEET THE OWNERS <ArrowRight size={15} /></span>
+            <span>
+              MEET THE OWNERS <ArrowRight size={15} />
+            </span>
           </Link>
 
           <Link href="/list" className="al-feature-card">
@@ -111,26 +148,36 @@ export default function HomePage() {
               Jelajahi koleksi dan rekomendasi
               Manhwa, Manga, serta Manhua.
             </p>
-            <span>VIEW THE LIST <ArrowRight size={15} /></span>
+            <span>
+              VIEW THE LIST <ArrowRight size={15} />
+            </span>
           </Link>
         </div>
       </section>
 
       <section className="al-story">
         <div className="al-story-image" />
+
         <div className="al-story-copy">
           <Flower2 size={30} />
-          <p className="al-eyebrow">A NOTE FROM ANDREW & LUKE</p>
+
+          <p className="al-eyebrow">
+            A NOTE FROM ANDREW & LUKE
+          </p>
+
           <h2>
             “Every story
             <em> leaves a little light.</em>”
           </h2>
+
           <p>
             Terima kasih sudah menjadi bagian dari ruang kecil kami.
             Semoga kamu menemukan sesuatu yang kamu sukai di sini.
           </p>
+
           <Link href="/list" className="al-text-link">
-            EXPLORE OUR READING LIST <ArrowRight size={16} />
+            EXPLORE OUR READING LIST
+            <ArrowRight size={16} />
           </Link>
         </div>
       </section>
@@ -140,12 +187,15 @@ export default function HomePage() {
           <span>A <i>✦</i> L</span>
           <small>ANDREW & LUKE</small>
         </Link>
+
         <p>MADE WITH LOVE · ANDREW STORE YAOI</p>
+
         <div>
           <Link href="/pricing">Order Now</Link>
           <Link href="/aboutowner">About Owner</Link>
           <Link href="/list">Reading List</Link>
         </div>
+
         <small>© {new Date().getFullYear()} Andrew & Luke</small>
       </footer>
     </main>
