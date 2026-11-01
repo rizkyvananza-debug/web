@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import WelcomeModal from "../components/WelcomeModal";
 
 export const metadata: Metadata = {
   title: "No More Eurydice — A Gothic Romance Archive",
@@ -7,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="id"><body>{children}</body></html>;
+  return <html lang="id"><body>{children}<WelcomeModal /></body></html>;
 }
