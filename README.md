@@ -58,3 +58,27 @@ The `public/` folder contains image references supplied by the site owner:
 - `eurydice-character-art.jpg` — character artwork.
 - `piano-music-texture.jpg` — piano/music texture.
 These files were supplied in this conversation. Confirm you have permission to publish them on your public website.
+
+
+## Recent homepage update
+
+- Homepage hero now includes ORDER NOW (`/pricing`) and ABOUT OWNER (`/aboutowner`) buttons.
+- Main Characters shows Kim Hee-jae and Han Garam with the supplied image URLs and descriptions.
+- The reading room generates 213 chapter entries, grouped by the requested season ranges. Every READ NOW button opens `https://t.me/nomoreeurydicesubindo`.
+
+### Editing chapter names, notes, and links
+
+Open `app/page.tsx` and find `chapterOverrides` near the top. Add entries by chapter number, for example:
+
+```ts
+const chapterOverrides = {
+  1: {
+    title: "The First Note",
+    note: "A melody begins where words fall silent.",
+    href: "https://your-chapter-link.example"
+  },
+  2: { title: "A Quiet Promise", href: "https://your-next-link.example" }
+};
+```
+
+If `href` is omitted, that chapter uses the Telegram channel link. The displayed default chapter names are placeholders; replace them with verified titles as desired.
