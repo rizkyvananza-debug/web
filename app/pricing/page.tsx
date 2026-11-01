@@ -1,5 +1,5 @@
 
-const OWNER_CONTACT = "https://wa.me/62xxxxxxxxxx";
+const OWNER_CONTACT = "https://wa.me/31687593822";
 // Ganti dengan link WhatsApp owner yang sebenarnya.
 
 const products = [
