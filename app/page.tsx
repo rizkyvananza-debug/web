@@ -1,203 +1,68 @@
+'use client';
 
-"use client";
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
+import { manhwaList } from '../../data/manhwa';
+import './library.css';
 
-import { useState } from "react";
-import Link from "next/link";
-import {
-  ArrowRight,
-  BookOpen,
-  ShoppingBag,
-  UserRound,
-  Sparkles,
-  Flower2,
-} from "lucide-react";
+export default function ManhwaLibraryPage() {
+  const [query, setQuery] = useState('');
+  const [genre, setGenre] = useState('All');
+  const genres = ['All', 'Boys’ Love', 'Romance', 'Drama', 'Psychological', 'Comedy'];
 
-export default function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const filtered = useMemo(() => manhwaList.filter((item) => {
+    const matchesQuery = `${item.title} ${item.author}`.toLowerCase().includes(query.toLowerCase());
+    const matchesGenre = genre === 'All' || item.genres.includes(genre);
+    return matchesQuery && matchesGenre;
+  }), [query, genre]);
 
   return (
-    <main className="al-home">
-      <header className="al-header">
-        <Link
-          href="/"
-          className="al-logo"
-          onClick={() => setMenuOpen(false)}
-        >
-          <span>A <i>✦</i> L</span>
-          <small>ANDREW & LUKE</small>
-        </Link>
+    <main className="library-page">
+      <div className="library-shell">
+        <header className="library-header">
+          <Link href="/" className="library-brand">N<span>✦</span>E <small>ANDREW STORE YAOI</small></Link>
+          <Link href="/" className="back-home">← Home</Link>
+        </header>
 
-        <button
-          className={`al-menu-toggle ${menuOpen ? "active" : ""}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
-          aria-expanded={menuOpen}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+        <section className="library-intro">
+          <p className="eyebrow">THE PRIVATE READING ROOM · EST. 2026</p>
+          <h1>Stories kept<br /><em>between the lines.</em></h1>
+          <p className="intro-copy">A curated archive of romance, longing, and beautifully complicated hearts.</p>
+          <div className="intro-rule"><span>✦</span></div>
+        </section>
 
-        <nav className={`al-nav ${menuOpen ? "is-open" : ""}`}>
-          <Link href="/" onClick={() => setMenuOpen(false)}>
-            Home
-          </Link>
-          <Link href="/pricing" onClick={() => setMenuOpen(false)}>
-            Order Now
-          </Link>
-          <Link href="/aboutowner" onClick={() => setMenuOpen(false)}>
-            About Owner
-          </Link>
-          <Link href="/list" onClick={() => setMenuOpen(false)}>
-            Reading List
-          </Link>
-        </nav>
-      </header>
+        <section className="library-controls" aria-label="Manhwa filters">
+          <label className="search-box"><span>⌕</span><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search a title or creator…" /></label>
+          <div className="genre-tabs">{genres.map((item) => <button key={item} className={genre === item ? 'active' : ''} onClick={() => setGenre(item)}>{item}</button>)}</div>
+        </section>
 
-      <section className="al-hero">
-        <div className="al-hero-image" />
+        <div className="section-heading"><div><p className="eyebrow">THE COLLECTION</p><h2>Featured manhwa <span>({filtered.length.toString().padStart(2, '0')})</span></h2></div><p className="sort-note">A SMALL, HAND-PICKED LIBRARY</p></div>
 
-        <div className="al-hero-content">
-          <p className="al-eyebrow">
-            <Sparkles size={14} />
-            A LITTLE STORE BY ANDREW & LUKE
-          </p>
+        <section className="manhwa-grid">
+          {filtered.map((item, index) => (
+            <article className={`manhwa-card ${item.accent}`} key={item.slug}>
+              <Link href={`/list/${item.slug}`} className="cover-link" aria-label={`Open ${item.title}`}>
+                <div className="cover-art">
+                  <span className="cover-index">N° 0{index + 1}</span>
+                  <span className="cover-ornament">✦</span>
+                  <span className="cover-title">{item.title}</span>
+                  <span className="cover-author">A STORY BY {item.author.toUpperCase()}</span>
+                  <span className="cover-bottom">ANDREW STORE YAOI · ARCHIVE</span>
+                </div>
+              </Link>
+              <div className="card-info">
+                <div className="card-title-row"><div><p className="card-kicker">{item.alternateTitle}</p><h3><Link href={`/list/${item.slug}`}>{item.title}</Link></h3></div><span className="status-dot">{item.status}</span></div>
+                <p className="card-meta">{item.author} <span>·</span> {item.year}</p>
+                <div className="card-genres">{item.genres.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div>
+                <Link className="discover-link" href={`/list/${item.slug}`}>DISCOVER STORY <span>↗</span></Link>
+              </div>
+            </article>
+          ))}
+          {filtered.length === 0 && <p className="empty-state">No stories found. Try another title or genre.</p>}
+        </section>
 
-          <h1>
-            Andrew <span>&</span>
-            <em>Luke.</em>
-          </h1>
-
-          <div className="al-line" />
-
-          <p className="al-description">
-            A little place for stories, services, and things we love.
-            Dikelola dengan hangat oleh Andrew & Luke.
-          </p>
-
-          <div className="al-buttons">
-            <Link href="/pricing" className="al-button al-button-primary">
-              <ShoppingBag size={19} />
-              ORDER NOW
-              <ArrowRight size={17} />
-            </Link>
-
-            <Link href="/aboutowner" className="al-button al-button-outline">
-              <UserRound size={19} />
-              ABOUT OWNER
-            </Link>
-          </div>
-
-          <Link href="/list" className="al-list-button">
-            <BookOpen size={20} />
-            MANHWA · MANGA · MANHUA LIST
-            <ArrowRight size={17} />
-          </Link>
-        </div>
-
-        <div className="al-hero-caption">
-          NO MORE EURYDICE · STORIES BEYOND WORDS
-        </div>
-      </section>
-
-      <section className="al-intro">
-        <div className="al-section-heading">
-          <span>✦</span>
-          <p>WELCOME TO OUR LITTLE WORLD</p>
-          <span>✦</span>
-        </div>
-
-        <h2>
-          A space made with <em>love.</em>
-        </h2>
-
-        <p>
-          Temukan layanan, kenali pemilik toko, dan jelajahi
-          berbagai cerita favorit dalam satu tempat.
-        </p>
-
-        <div className="al-feature-grid">
-          <Link href="/pricing" className="al-feature-card">
-            <ShoppingBag size={27} />
-            <h3>Order Now</h3>
-            <p>
-              Temukan layanan sewa bot, User Premium,
-              dan informasi harga.
-            </p>
-            <span>
-              EXPLORE SERVICES <ArrowRight size={15} />
-            </span>
-          </Link>
-
-          <Link href="/aboutowner" className="al-feature-card">
-            <UserRound size={27} />
-            <h3>About Owner</h3>
-            <p>
-              Kenali Andrew & Luke lebih dekat
-              sebagai pengelola Andrew Store.
-            </p>
-            <span>
-              MEET THE OWNERS <ArrowRight size={15} />
-            </span>
-          </Link>
-
-          <Link href="/list" className="al-feature-card">
-            <BookOpen size={27} />
-            <h3>Reading List</h3>
-            <p>
-              Jelajahi koleksi dan rekomendasi
-              Manhwa, Manga, serta Manhua.
-            </p>
-            <span>
-              VIEW THE LIST <ArrowRight size={15} />
-            </span>
-          </Link>
-        </div>
-      </section>
-
-      <section className="al-story">
-        <div className="al-story-image" />
-
-        <div className="al-story-copy">
-          <Flower2 size={30} />
-
-          <p className="al-eyebrow">
-            A NOTE FROM ANDREW & LUKE
-          </p>
-
-          <h2>
-            “Every story
-            <em> leaves a little light.</em>”
-          </h2>
-
-          <p>
-            Terima kasih sudah menjadi bagian dari ruang kecil kami.
-            Semoga kamu menemukan sesuatu yang kamu sukai di sini.
-          </p>
-
-          <Link href="/list" className="al-text-link">
-            EXPLORE OUR READING LIST
-            <ArrowRight size={16} />
-          </Link>
-        </div>
-      </section>
-
-      <footer className="al-footer">
-        <Link href="/" className="al-logo">
-          <span>A <i>✦</i> L</span>
-          <small>ANDREW & LUKE</small>
-        </Link>
-
-        <p>MADE WITH LOVE · ANDREW STORE YAOI</p>
-
-        <div>
-          <Link href="/pricing">Order Now</Link>
-          <Link href="/aboutowner">About Owner</Link>
-          <Link href="/list">Reading List</Link>
-        </div>
-
-        <small>© {new Date().getFullYear()} Andrew & Luke</small>
-      </footer>
+        <footer className="library-footer"><span>✦</span><p>READ SLOWLY. FEEL EVERYTHING.</p><span>✦</span></footer>
+      </div>
     </main>
   );
 }
