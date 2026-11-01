@@ -853,3 +853,283 @@ body { background:#101918; }
     padding: 65px 12%;
   }
 }
+
+
+/* =========================================
+   ANDREW & LUKE — MOBILE PHONE OPTIMIZATION
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  /* Mencegah halaman melebar ke samping */
+  .al-home {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .al-header {
+    min-height: 72px;
+    padding: 10px 18px;
+  }
+
+  .al-logo span {
+    font-size: 27px;
+  }
+
+  .al-logo small {
+    font-size: 8px;
+    letter-spacing: 3px;
+  }
+
+  .al-menu-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .al-nav.is-open {
+    left: 12px;
+    right: 12px;
+    border-radius: 12px;
+    padding: 8px 17px;
+  }
+
+  .al-nav.is-open a {
+    font-size: 15px;
+    padding: 16px 7px;
+  }
+
+  /* HERO */
+  .al-hero {
+    min-height: 680px;
+    min-height: calc(100svh - 72px);
+    padding: 65px 23px 75px;
+    align-items: center;
+  }
+
+  .al-hero-image {
+    background-position: 58% center;
+  }
+
+  .al-hero::after {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(15,37,36,.88),
+        rgba(15,37,36,.48)
+      ),
+      linear-gradient(
+        0deg,
+        rgba(15,37,36,.88),
+        transparent 90%
+      );
+  }
+
+  .al-hero-content {
+    max-width: 100%;
+  }
+
+  .al-eyebrow {
+    font-size: 8px;
+    letter-spacing: 1.7px;
+    gap: 7px;
+  }
+
+  .al-hero h1 {
+    font-size: clamp(57px, 15vw, 76px);
+    line-height: .96;
+    letter-spacing: -2.5px;
+    margin: 28px 0 18px;
+  }
+
+  .al-line {
+    width: 65px;
+    margin: 22px 0;
+  }
+
+  .al-description {
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 330px;
+  }
+
+  /* BUTTONS */
+  .al-buttons {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 27px;
+  }
+
+  .al-button {
+    min-height: 54px;
+    font-size: 9px;
+    letter-spacing: .5px;
+    gap: 5px;
+  }
+
+  .al-button svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .al-list-button {
+    min-height: 55px;
+    margin-top: 10px;
+    padding: 10px 7px;
+    gap: 7px;
+    font-size: 8px;
+    letter-spacing: .5px;
+  }
+
+  .al-list-button svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
+
+  .al-hero-caption {
+    bottom: 17px;
+    padding: 0 12px;
+    font-size: 7px;
+    letter-spacing: 1.3px;
+  }
+
+  /* INTRO */
+  .al-intro {
+    padding: 58px 20px;
+  }
+
+  .al-section-heading {
+    gap: 9px;
+    font-size: 8px;
+    letter-spacing: 1.2px;
+  }
+
+  .al-intro h2 {
+    font-size: 32px;
+    line-height: 1.2;
+    margin: 19px 0 12px;
+  }
+
+  .al-intro > p {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  /* FEATURE CARDS */
+  .al-feature-grid {
+    margin-top: 29px;
+    gap: 13px;
+  }
+
+  .al-feature-card {
+    min-height: 205px;
+    padding: 27px 20px;
+    border-radius: 4px;
+  }
+
+  .al-feature-card > svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .al-feature-card h3 {
+    font-size: 23px;
+    margin: 14px 0 8px;
+  }
+
+  .al-feature-card p {
+    max-width: 270px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .al-feature-card span {
+    font-size: 9px;
+    letter-spacing: 1.2px;
+  }
+
+  /* STORY */
+  .al-story {
+    grid-template-columns: 1fr;
+  }
+
+  .al-story-image {
+    min-height: 310px;
+    background-position: center;
+  }
+
+  .al-story-copy {
+    padding: 42px 24px 48px;
+  }
+
+  .al-story-copy > svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .al-story-copy h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    margin: 18px 0;
+  }
+
+  .al-story-copy > p:not(.al-eyebrow) {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .al-text-link {
+    font-size: 9px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+
+  /* FOOTER */
+  .al-footer {
+    padding: 38px 18px 30px;
+    gap: 19px;
+  }
+
+  .al-footer > p {
+    font-size: 8px;
+    letter-spacing: 1.8px;
+    line-height: 1.8;
+  }
+
+  .al-footer > div {
+    gap: 14px;
+    font-size: 10px;
+  }
+
+  .al-footer > small {
+    font-size: 9px;
+  }
+}
+
+/* HP LAYAR KECIL */
+@media (max-width: 360px) {
+  .al-hero {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .al-hero h1 {
+    font-size: 55px;
+  }
+
+  .al-button {
+    font-size: 8px;
+    gap: 4px;
+  }
+
+  .al-list-button {
+    font-size: 7px;
+  }
+
+  .al-section-heading {
+    font-size: 7px;
+    gap: 6px;
+  }
+}
