@@ -52,33 +52,9 @@ export default function LoginPage() {
     }
   }
 
-  async function handleGoogle() {
-    setLoading(true);
-    setMessage("");
-
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/login`,
-        },
-      });
-
-      if (error) throw error;
-    } catch (error) {
-      setMessage(
-        error instanceof Error
-          ? error.message
-          : "Login Google gagal. Silakan coba lagi."
-      );
-      setLoading(false);
-    }
-  }
-
   return (
     <main className="min-h-screen bg-[#100d10] text-[#f5e9e9] flex items-center justify-center px-5 py-12">
       <div className="w-full max-w-md rounded-2xl border border-[#67404d] bg-[#191318] p-7 shadow-2xl">
-
         <div className="text-center mb-8">
           <p className="text-[#c99b79] tracking-[0.4em] text-sm mb-4">
             N✦E
@@ -93,18 +69,9 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={handleGoogle}
-          disabled={loading}
-          className="w-full rounded-xl border border-[#765260] py-3 mb-6 hover:bg-[#35232c] disabled:opacity-50"
-        >
-          {loading ? "Please wait..." : "Continue with Google"}
-        </button>
-
         <div className="flex items-center gap-3 mb-6 text-xs text-[#927d85]">
           <div className="h-px flex-1 bg-[#49323b]" />
-          OR CONTINUE WITH EMAIL
+          CONTINUE WITH EMAIL
           <div className="h-px flex-1 bg-[#49323b]" />
         </div>
 
@@ -179,7 +146,6 @@ export default function LoginPage() {
             {mode === "login" ? "Sign up" : "Sign in"}
           </button>
         </p>
-
       </div>
     </main>
   );
