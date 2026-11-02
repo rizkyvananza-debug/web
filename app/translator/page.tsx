@@ -22,6 +22,7 @@ export default function TranslatorPage() {
   const [series, setSeries] = useState<Series[]>([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [converting, setConverting] = useState(false);
   const [tab, setTab] = useState<"series" | "chapter">("series");
 
   // Form manhwa
@@ -40,6 +41,8 @@ export default function TranslatorPage() {
   const [chapterNumber, setChapterNumber] = useState("1");
   const [chapterTitle, setChapterTitle] = useState("");
   const [chapterImages, setChapterImages] = useState<File[]>([]);
+  const [pdfPages, setPdfPages] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState("");
 
   useEffect(() => {
     checkOwner();
@@ -82,14 +85,14 @@ export default function TranslatorPage() {
   }
 
   async function uploadImage(file: File, folder: string) {
-    const extension = file.name.split(".").pop() || "jpg";
+    const extension = file.name.split(".").pop() || "webp";
     const fileName = `${folder}/${crypto.randomUUID()}.${extension}`;
 
     const { error } = await supabase.storage
       .from("manhwa-images")
       .upload(fileName, file, {
         upsert: false,
-        contentType: file.type,
+        contentType: file.type || "image/webp",
       });
 
     if (error) throw error;
@@ -131,10 +134,7 @@ export default function TranslatorPage() {
         title: title.trim(),
         slug: finalSlug,
         synopsis: synopsis.trim(),
-        genres: genres
-          .split(",")
-          .map((item) => item.trim())
-          .filter(Boolean),
+        genres: genres.split(",").map((item) => item.trim()).filter(Boolean),
         author: author.trim(),
         artist: artist.trim(),
         publisher: publisher.trim(),
@@ -165,6 +165,90 @@ export default function TranslatorPage() {
     }
   }
 
+  // Mengubah setiap halaman PDF menjadi file WebP
+  async function convertPdf(file: File) {
+    setConverting(true);
+    setMessage("");
+
+    try {
+      const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+
+      pdfjs.GlobalWorkerOptions.workerSrc =
+        "https://unpkg.com/pdfjs-dist@4.10.38/legacy/build/pdf.worker.min.mjs";
+
+      const buffer = await file.arrayBuffer();
+
+      const pdf = await pdfjs.getDocument({
+        data: new Uint8Array(buffer),
+      }).promise;
+
+      if (pdf.numPages > 300) {
+        throw new Error(
+          "PDF memiliki lebih dari 300 halaman. Pisahkan PDF menjadi beberapa bagian."
+        );
+      }
+
+      const converted: File[] = [];
+
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+        setMessage(`Mengubah PDF: halaman ${pageNumber} dari ${pdf.numPages}...`);
+
+        const page = await pdf.getPage(pageNumber);
+        const viewport = page.getViewport({ scale: 1.5 });
+
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+
+        if (!context) {
+          throw new Error("Browser tidak dapat membuat gambar.");
+        }
+
+        canvas.width = Math.ceil(viewport.width);
+        canvas.height = Math.ceil(viewport.height);
+
+        await page.render({
+          canvasContext: context,
+          viewport,
+        }).promise;
+
+        const blob = await new Promise<Blob>((resolve, reject) => {
+          canvas.toBlob(
+            (result) => {
+              if (result) resolve(result);
+              else reject(new Error("Gagal mengubah halaman menjadi WebP."));
+            },
+            "image/webp",
+            0.85
+          );
+        });
+
+        converted.push(
+          new File([blob], `page-${pageNumber}.webp`, {
+            type: "image/webp",
+          })
+        );
+
+        canvas.width = 0;
+        canvas.height = 0;
+        page.cleanup();
+      }
+
+      setPdfPages(converted);
+      setMessage(
+        `Berhasil mengubah ${converted.length} halaman PDF menjadi WebP.`
+      );
+    } catch (error) {
+      setPdfPages([]);
+      setMessage(
+        error instanceof Error
+          ? "Gagal membaca PDF: " + error.message
+          : "Gagal mengubah PDF."
+      );
+    } finally {
+      setConverting(false);
+    }
+  }
+
   async function addChapter(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
@@ -175,8 +259,25 @@ export default function TranslatorPage() {
         throw new Error("Pilih manhwa terlebih dahulu.");
       }
 
-      if (chapterImages.length === 0) {
-        throw new Error("Pilih gambar halaman chapter terlebih dahulu.");
+      const urls = imageUrls
+        .split("\n")
+        .map((url) => url.trim())
+        .filter(Boolean);
+
+      const allFiles = [...pdfPages, ...chapterImages];
+
+      if (allFiles.length === 0 && urls.length === 0) {
+        throw new Error("Pilih PDF, gambar, atau masukkan URL gambar.");
+      }
+
+      if (urls.some((url) => !/^https?:\/\/\S+$/i.test(url))) {
+        throw new Error("Ada URL gambar yang tidak valid.");
+      }
+
+      const totalPages = allFiles.length + urls.length;
+
+      if (totalPages > 300) {
+        throw new Error("Maksimal 300 halaman untuk satu chapter.");
       }
 
       const number = Number(chapterNumber);
@@ -197,27 +298,45 @@ export default function TranslatorPage() {
 
       if (chapterError) throw chapterError;
 
-      for (let i = 0; i < chapterImages.length; i++) {
+      // Upload file WebP hasil PDF dan gambar biasa
+      for (let i = 0; i < allFiles.length; i++) {
+        setMessage(`Mengunggah halaman ${i + 1} dari ${totalPages}...`);
+
         const imageUrl = await uploadImage(
-          chapterImages[i],
+          allFiles[i],
           `chapters/${chapter.id}`
         );
 
-        const { error: pageError } = await supabase
-          .from("manhwa_pages")
-          .insert({
-            chapter_id: chapter.id,
-            page_number: i + 1,
-            image_url: imageUrl,
-          });
+        const { error } = await supabase.from("manhwa_pages").insert({
+          chapter_id: chapter.id,
+          page_number: i + 1,
+          image_url: imageUrl,
+        });
 
-        if (pageError) throw pageError;
+        if (error) throw error;
       }
 
-      const { data: existing } = await supabase
+      // Simpan URL gambar langsung ke database
+      for (let i = 0; i < urls.length; i++) {
+        setMessage(
+          `Menyimpan URL halaman ${allFiles.length + i + 1} dari ${totalPages}...`
+        );
+
+        const { error } = await supabase.from("manhwa_pages").insert({
+          chapter_id: chapter.id,
+          page_number: allFiles.length + i + 1,
+          image_url: urls[i],
+        });
+
+        if (error) throw error;
+      }
+
+      const { data: existing, error: countReadError } = await supabase
         .from("manhwa_chapters")
         .select("id")
         .eq("series_id", selectedSeries);
+
+      if (countReadError) throw countReadError;
 
       const { error: countError } = await supabase
         .from("manhwa_series")
@@ -226,14 +345,19 @@ export default function TranslatorPage() {
 
       if (countError) throw countError;
 
-      setMessage("Chapter berhasil ditambahkan!");
+      setMessage(`Chapter berhasil ditambahkan! Total ${totalPages} halaman.`);
       setChapterNumber(String(number + 1));
       setChapterTitle("");
       setChapterImages([]);
+      setPdfPages([]);
+      setImageUrls("");
+
       await loadSeries();
     } catch (error) {
       setMessage(
-        error instanceof Error ? error.message : "Gagal menambahkan chapter."
+        error instanceof Error
+          ? error.message
+          : "Gagal menambahkan chapter."
       );
     } finally {
       setLoading(false);
@@ -479,35 +603,113 @@ export default function TranslatorPage() {
               />
             </div>
 
-            <div>
-              <label className="block mb-2">Gambar Halaman Chapter *</label>
+            <div className="rounded-xl border border-[#67404d] p-4 space-y-3">
+              <h3 className="font-semibold text-[#ef91a5]">
+                1. Upload PDF → WebP
+              </h3>
               <input
-                required
+                type="file"
+                accept="application/pdf,.pdf"
+                disabled={converting || loading}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) convertPdf(file);
+                  e.currentTarget.value = "";
+                }}
+                className="w-full text-sm"
+              />
+              <p className="text-xs text-[#a999a2]">
+                Setiap halaman PDF akan diubah menjadi gambar WebP.
+              </p>
+              {converting && (
+                <p className="text-sm text-[#ef91a5]">
+                  Sedang mengubah PDF, jangan tutup halaman ini...
+                </p>
+              )}
+              {pdfPages.length > 0 && (
+                <p className="text-sm text-[#c99b79]">
+                  {pdfPages.length} halaman WebP siap diunggah.
+                </p>
+              )}
+            </div>
+
+            <div className="rounded-xl border border-[#67404d] p-4 space-y-3">
+              <h3 className="font-semibold text-[#ef91a5]">
+                2. Upload Gambar
+              </h3>
+              <input
                 type="file"
                 accept="image/*"
                 multiple
+                disabled={loading || converting}
                 onChange={(e) =>
                   setChapterImages(Array.from(e.target.files || []))
                 }
                 className="w-full text-sm"
               />
-              <p className="text-xs text-[#a999a2] mt-2">
-                Pilih beberapa gambar sekaligus. Urutan file mengikuti urutan
-                pilihan dari perangkatmu.
+              <p className="text-xs text-[#a999a2]">
+                Pilih beberapa gambar sekaligus. Gambar akan diletakkan
+                setelah halaman PDF.
               </p>
               {chapterImages.length > 0 && (
-                <p className="text-sm text-[#c99b79] mt-2">
+                <p className="text-sm text-[#c99b79]">
                   {chapterImages.length} gambar dipilih.
                 </p>
               )}
             </div>
 
+            <div className="rounded-xl border border-[#67404d] p-4 space-y-3">
+              <h3 className="font-semibold text-[#ef91a5]">
+                3. URL Gambar
+              </h3>
+              <textarea
+                value={imageUrls}
+                onChange={(e) => setImageUrls(e.target.value)}
+                rows={5}
+                placeholder={"https://contoh.com/page-1.jpg\nhttps://contoh.com/page-2.jpg"}
+                className="w-full rounded-xl border border-[#67404d] bg-[#100d10] p-3 text-sm"
+              />
+              <p className="text-xs text-[#a999a2]">
+                Satu URL gambar untuk setiap baris. URL akan diletakkan
+                setelah file PDF dan gambar yang dipilih.
+              </p>
+              <p className="text-sm text-[#c99b79]">
+                {imageUrls.split("\n").filter((url) => url.trim()).length}
+                {" "}URL dimasukkan.
+              </p>
+            </div>
+
+            <div className="rounded-xl bg-[#251b23] p-4">
+              <h3 className="font-semibold mb-2">Ringkasan Halaman</h3>
+              <p className="text-sm text-[#b8a6ad]">
+                PDF: {pdfPages.length} halaman
+              </p>
+              <p className="text-sm text-[#b8a6ad]">
+                Gambar: {chapterImages.length} file
+              </p>
+              <p className="text-sm text-[#b8a6ad]">
+                URL: {imageUrls.split("\n").filter((url) => url.trim()).length}
+              </p>
+              <p className="font-bold text-[#ef91a5] mt-2">
+                Total: {pdfPages.length + chapterImages.length +
+                  imageUrls.split("\n").filter((url) => url.trim()).length} halaman
+              </p>
+            </div>
+
             <button
               type="submit"
-              disabled={loading || series.length === 0}
+              disabled={
+                loading ||
+                converting ||
+                series.length === 0
+              }
               className="w-full rounded-xl bg-[#ef91a5] py-3 font-bold text-[#321622] disabled:opacity-50"
             >
-              {loading ? "Mengunggah..." : "Simpan Chapter"}
+              {loading
+                ? "Mengunggah..."
+                : converting
+                  ? "Mengubah PDF..."
+                  : "Simpan Chapter"}
             </button>
 
             {series.length === 0 && (
