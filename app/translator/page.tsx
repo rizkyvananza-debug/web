@@ -167,6 +167,19 @@ export default function TranslatorPage() {
 
   // Mengubah setiap halaman PDF menjadi file WebP
   async function convertPdf(file: File) {
+    const MAX_PDF_SIZE = 100 * 1024 * 1024;
+
+    if (!file.name.toLowerCase().endsWith(".pdf") &&
+        file.type !== "application/pdf") {
+      setMessage("File harus berformat PDF.");
+      return;
+    }
+
+    if (file.size > MAX_PDF_SIZE) {
+      setMessage("PDF terlalu besar. Maksimal 100 MB.");
+      return;
+    }
+
     setConverting(true);
     setMessage("");
 
