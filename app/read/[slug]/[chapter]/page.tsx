@@ -1,23 +1,168 @@
-"use client";
-import Link from "next/link";
-import { useEffect,useState } from "react";
-import { useParams } from "next/navigation";
-import { supabase } from "../../../lib/supabase";
 
-export default function DynamicReader(){
- const {slug,chapter}=useParams<{slug:string;chapter:string}>();
- const [series,setSeries]=useState<any>(null); const [chapterRow,setChapterRow]=useState<any>(null); const [pages,setPages]=useState<any[]>([]); const [chapters,setChapters]=useState<any[]>([]); const [busy,setBusy]=useState(true);
- useEffect(()=>{(async()=>{
-  const {data:s}=await supabase.from("manhwa_series").select("id,title,slug").eq("slug",slug).single();
-  if(s){setSeries(s);const {data:c}=await supabase.from("manhwa_chapters").select("*").eq("series_id",s.id).order("chapter_number");setChapters(c||[]);const current=(c||[]).find((x:any)=>x.id===chapter);if(current){setChapterRow(current);const {data:p}=await supabase.from("manhwa_pages").select("*").eq("chapter_id",current.id).order("page_number");setPages(p||[]);const key="asy-history";const old=JSON.parse(localStorage.getItem(key)||"[]");localStorage.setItem(key,JSON.stringify([{slug,title:s.title,chapterId:current.id,chapterTitle:current.title||`Chapter ${current.chapter_number}`,at:Date.now()},...old.filter((x:any)=>x.chapterId!==current.id)].slice(0,100)));}}
-  setBusy(false);
- })();},[slug,chapter]);
- if(busy)return <main className="min-h-screen bg-[#100d10] text-white p-8">Loading reader...</main>;
- if(!series||!chapterRow)return <main className="min-h-screen bg-[#100d10] text-white p-8">Chapter tidak ditemukan. <Link href="/list">Kembali</Link></main>;
- const idx=chapters.findIndex((x:any)=>x.id===chapterRow.id);
- return <main className="min-h-screen bg-[#100d10] text-[#f5e9e9]">
- <header className="sticky top-0 z-10 flex items-center justify-between gap-3 bg-[#191318] border-b border-[#49323b] p-4"><Link href={`/list/${slug}`}>← Detail</Link><div className="text-center"><b>{series.title}</b><p className="text-xs text-[#ef91a5]">{chapterRow.title||`Chapter ${chapterRow.chapter_number}`}</p></div><Link href="/account">Saved</Link></header>
- <section className="max-w-3xl mx-auto">{pages.length?pages.map((p:any)=><img key={p.id} src={p.image_url} alt={`Page ${p.page_number}`} className="block w-full h-auto" loading={p.page_number<3?"eager":"lazy"}/>):<div className="p-12 text-center">Belum ada halaman untuk chapter ini.</div>}</section>
- <footer className="flex justify-between max-w-3xl mx-auto p-6"><Link className={idx<=0?"pointer-events-none opacity-30":""} href={idx>0?`/read/${slug}/${chapters[idx-1].id}`:`/list/${slug}`}>← Previous</Link><Link href={`/list/${slug}`}>Chapters</Link><Link className={idx===chapters.length-1?"pointer-events-none opacity-30":""} href={idx<chapters.length-1?`/read/${slug}/${chapters[idx+1].id}`:`/list/${slug}`}>Next →</Link></footer>
- </main>;
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
+import "../library.css";
+
+type Props = {
+  params: { slug: string };
+};
+
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
+  );
+}
+
+export default async function ManhwaDetailPage({ params }: Props) {
+  const supabase = getSupabase();
+
+  const { data: manhwa, error } = await supabase
+    .from("manhwa_series")
+    .select("*")
+    .eq("slug", params.slug)
+    .single();
+
+  if (error || !manhwa) notFound();
+
+  const { data: chapters, error: chapterError } = await supabase
+    .from("manhwa_chapters")
+    .select("id,chapter_number,title,created_at")
+    .eq("series_id", manhwa.id)
+    .eq("is_published", true)
+    .order("chapter_number", { ascending: false });
+
+  if (chapterError) {
+    throw new Error("Gagal mengambil daftar chapter.");
+  }
+
+  const genreList: string[] = Array.isArray(manhwa.genres)
+    ? manhwa.genres
+    : [];
+
+  return (
+    <main className="library-page detail-page">
+      <div className="library-shell">
+        <header className="library-header">
+          <Link href="/" className="library-brand">
+            N<span>✦</span>E <small>ANDREW STORE YAOI</small>
+          </Link>
+          <Link href="/list" className="back-home">← Library</Link>
+        </header>
+
+        <nav className="breadcrumbs">
+          <Link href="/">HOME</Link>
+          <span>/</span>
+          <Link href="/list">COLLECTION</Link>
+          <span>/</span>
+          <span>{manhwa.title.toUpperCase()}</span>
+        </nav>
+
+        <section className="detail-hero">
+          <div className="detail-cover">
+            <div className="cover-art">
+              {manhwa.cover_url ? (
+                <img
+                  src={manhwa.cover_url}
+                  alt={manhwa.title}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <>
+                  <span className="cover-ornament">✦</span>
+                  <span className="cover-title">{manhwa.title}</span>
+                  <span className="cover-bottom">ANDREW STORE YAOI · ARCHIVE</span>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="detail-copy">
+            <p className="eyebrow">A STORY FROM THE ARCHIVE</p>
+            <h1>{manhwa.title}</h1>
+
+            <div className="detail-tags">
+              {genreList.map((genre) => (
+                <span key={genre}>{genre}</span>
+              ))}
+            </div>
+
+            <p className="detail-synopsis">
+              {manhwa.synopsis || "Belum ada sinopsis."}
+            </p>
+
+            <dl className="detail-facts">
+              <div>
+                <dt>AUTHOR</dt>
+                <dd>{manhwa.author || "Unknown"}</dd>
+              </div>
+              <div>
+                <dt>ARTIST</dt>
+                <dd>{manhwa.artist || "Unknown"}</dd>
+              </div>
+              <div>
+                <dt>STATUS</dt>
+                <dd>{manhwa.status || "Unknown"}</dd>
+              </div>
+              <div>
+                <dt>CHAPTERS</dt>
+                <dd>{chapters?.length || 0}</dd>
+              </div>
+            </dl>
+
+            <a className="start-reading" href="#chapters">
+              EXPLORE CHAPTERS <span>↓</span>
+            </a>
+          </div>
+        </section>
+
+        <section id="chapters" className="chapter-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">THE READING ROOM</p>
+              <h2>
+                Chapters{" "}
+                <span>
+                  ({String(chapters?.length || 0).padStart(2, "0")})
+                </span>
+              </h2>
+            </div>
+            <p className="sort-note">SELECT A CHAPTER TO BEGIN</p>
+          </div>
+
+          {!chapters || chapters.length === 0 ? (
+            <p className="chapter-note">
+              Belum ada chapter yang dipublikasikan.
+            </p>
+          ) : (
+            <div className="chapter-list">
+              {chapters.map((chapter, index) => (
+                <Link
+                  href={`/read/${manhwa.slug}/${chapter.id}`}
+                  className="chapter-row"
+                  key={chapter.id}
+                >
+                  <span className="chapter-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="chapter-name">
+                    {chapter.title || `Chapter ${chapter.chapter_number}`}
+                  </span>
+                  <span className="chapter-date">READ CHAPTER</span>
+                  <span className="chapter-arrow">↗</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <footer className="library-footer">
+          <span>✦</span>
+          <p>ENDLESS STORIES, QUIETLY KEPT.</p>
+          <span>✦</span>
+        </footer>
+      </div>
+    </main>
+  );
 }
