@@ -1,39 +1,30 @@
 
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
+import Link from "next/link";
 
 type Props = {
   title: string;
   chapterTitle: string;
   slug: string;
-  chapterSlug: string;
+  chapterId: string;
   previous?: string;
   next?: string;
-  pageCount: number;
+  imageUrls: string[];
 };
 
 export default function ReaderViewer({
   title,
   chapterTitle,
   slug,
-  chapterSlug,
   previous,
   next,
-  pageCount,
+  imageUrls,
 }: Props) {
-  const [failedPages, setFailedPages] = useState<number[]>([]);
-
-  const folder = `/chapters/${slug}/${chapterSlug}`;
-
   return (
     <main className="reader-page">
       <header className="reader-top">
-        <Link
-          href={`/list/${slug}`}
-          className="reader-back"
-        >
+        <Link href={`/list/${slug}`} className="reader-back">
           ← DETAILS
         </Link>
 
@@ -48,52 +39,22 @@ export default function ReaderViewer({
       </header>
 
       <div className="reader-toolbar">
-        <Link href={`/list/${slug}`}>
-          Chapter list
-        </Link>
-
+        <Link href={`/list/${slug}`}>Chapter list</Link>
         <span>ANDREW STORE YAOI</span>
-
-        <a href="#reader-bottom">
-          End of chapter ↓
-        </a>
+        <a href="#reader-bottom">End of chapter ↓</a>
       </div>
 
       <section className="webtoon-reader">
-        {pageCount > 0 ? (
-          Array.from({ length: pageCount }, (_, index) => {
-            const pageNumber = index + 1;
-            const filename = String(pageNumber).padStart(3, '0');
-
-            return (
-              <div className="webtoon-page" key={pageNumber}>
-                {failedPages.includes(pageNumber) ? (
-                  <div className="page-error">
-                    <span>✦</span>
-                    <p>
-                      Page {pageNumber} belum tersedia.
-                    </p>
-                    <small>
-                      Periksa nama dan lokasi file gambarnya.
-                    </small>
-                  </div>
-                ) : (
-                  <img
-                    src={`${folder}/${filename}.jpg`}
-                    alt={`${title} ${chapterTitle} page ${pageNumber}`}
-                    loading={pageNumber <= 2 ? 'eager' : 'lazy'}
-                    onError={() =>
-                      setFailedPages((current) =>
-                        current.includes(pageNumber)
-                          ? current
-                          : [...current, pageNumber]
-                      )
-                    }
-                  />
-                )}
-              </div>
-            );
-          })
+        {imageUrls.length > 0 ? (
+          imageUrls.map((url, index) => (
+            <div className="webtoon-page" key={`${url}-${index}`}>
+              <img
+                src={url}
+                alt={`${title} ${chapterTitle} page ${index + 1}`}
+                loading={index < 2 ? "eager" : "lazy"}
+              />
+            </div>
+          ))
         ) : (
           <div className="reader-empty">
             <span>✦</span>
@@ -101,21 +62,13 @@ export default function ReaderViewer({
               ANDREW STORE YAOI · READING ROOM
             </p>
             <h1>{chapterTitle}</h1>
-            <p>
-              Reader sudah siap. Gambar halaman chapter
-              belum ditambahkan.
-            </p>
-            <small>
-              Tambahkan gambar JPG ke folder public/chapters
-              untuk mulai membaca.
-            </small>
+            <p>Halaman untuk chapter ini belum tersedia.</p>
           </div>
         )}
       </section>
 
       <footer className="reader-bottom" id="reader-bottom">
         <p>YOU HAVE REACHED THE END</p>
-
         <h2>{chapterTitle}</h2>
 
         <div className="reader-navigation">
@@ -127,9 +80,7 @@ export default function ReaderViewer({
             <span className="disabled">← PREVIOUS</span>
           )}
 
-          <Link href={`/list/${slug}`}>
-            CHAPTER LIST
-          </Link>
+          <Link href={`/list/${slug}`}>CHAPTER LIST</Link>
 
           {next ? (
             <Link href={`/read/${slug}/${next}`}>
